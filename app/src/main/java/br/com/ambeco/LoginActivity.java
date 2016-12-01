@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class LoginActivity extends AppCompatActivity {
@@ -66,12 +67,19 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intentInsertLista = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(intentInsertLista);
+                Intent intentLista = new Intent(LoginActivity.this, MainActivity.class);
+                startActivity(intentLista);
             }
         });
 
-
+        TextView cadastrarLoginText = (TextView) findViewById(R.id.login_sign);
+        cadastrarLoginText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentRegistration = new Intent(LoginActivity.this, RegistrationActivity.class);
+                startActivity(intentRegistration);
+            }
+        });
     }
 
     @Override
