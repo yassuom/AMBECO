@@ -1,0 +1,33 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/layoutColor</item>
+        <item name="colorAccent">@color/layoutColor</item>
+    </style>
+
+    <style name="HideBar" parent="Theme.AppCompat.NoActionBar">
+
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light">
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="RadioButton">
+        <item name="android:button">@null</item>
+        <item name="android:gravity">center</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:layout_margin">8dp</item>
+    </style>
+
+</resources>

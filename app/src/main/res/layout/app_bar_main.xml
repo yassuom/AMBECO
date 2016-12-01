@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="br.com.ambeco.MainActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay" >
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay">
+        
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:src="@drawable/ic_logo_lateral"
+                />
+            
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:orientation="horizontal"
+        android:layout_gravity="top"
+        android:layout_marginTop="50dp">
+
+        <ImageView
+            android:id="@+id/lista_locais_box1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight=".20"
+            android:layout_margin="2dp"
+            android:background="@drawable/ic_queimada_disable"/>
+
+        <ImageView
+            android:id="@+id/lista_locais_box2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight=".20"
+            android:layout_margin="2dp"
+            android:background="@drawable/ic_deslizamento_disable"/>
+
+        <ImageView
+            android:id="@+id/lista_locais_box3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight=".20"
+            android:layout_margin="2dp"
+            android:background="@drawable/ic_lixo_disable"/>
+
+        <ImageView
+            android:id="@+id/lista_locais_box4"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight=".20"
+            android:layout_margin="2dp"
+            android:background="@drawable/ic_desmatamento_disable"/>
+
+    </LinearLayout>
+
+
+
+    <FrameLayout
+        android:id="@+id/frame_principal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="70dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+    <Button
+        android:id="@+id/novo_local"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:text="+"
+        android:textColor="#fff"
+        android:textSize="40sp"
+        android:elevation="60dp"
+        android:layout_gravity="bottom|right"
+        android:layout_margin="16dp"
+        android:background="@drawable/fundo"
+        android:stateListAnimator="@null"
+        app:layout_anchorGravity="bottom|right|end"/>
+
+
+
+</android.support.design.widget.CoordinatorLayout>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="layoutColor">#8cc63f</color>
+
+    <color name="corID_queimada">#f99723</color>
+    <color name="corID_deslizamento">#8cc63f</color>
+    <color name="corID_lixo">#f9cd15</color>
+    <color name="corID_desmatamento">#00aaa5</color>
+</resources>
