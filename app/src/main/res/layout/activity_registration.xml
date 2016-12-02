@@ -6,45 +6,185 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".LoginActivity"
-    android:background="@color/layoutColor">
+    tools:context=".RegistrationActivity"
+    android:background="#fff">
 
-    <LinearLayout
-        android:id="@+id/LoginBox"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:orientation="vertical" >
+        android:layout_height="match_parent"
+        android:id="@+id/registration_main">
 
-        <EditText
-            android:id="@+id/login_user"
+        <LinearLayout
+            android:id="@+id/registration_box1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Email"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"/>
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:orientation="vertical"
+            android:visibility="visible">
 
-        <EditText
-            android:id="@+id/login_password"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Entre no Ambeco"
+                android:layout_gravity="center"
+                android:textStyle="bold"
+                android:textColor="@color/layoutColor"
+                android:textSize="20dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Crie uma conta facilmente em poucos passos"
+                android:layout_gravity="center"
+                android:textColor="#757679"
+                android:layout_margin="20dp"/>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Continuar"
+                android:layout_gravity="center"
+                android:layout_margin="30dp"
+                android:enabled="true"
+                android:textColor="@color/layoutColor"
+                android:background="@drawable/transparent_button"
+                android:onClick="onCreateAccountContinueClick"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Entrar"
+                android:textColor="@color/layoutColor"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/registration_box2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Senha"
-            android:inputType="textPassword"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"/>
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:orientation="vertical"
+            android:visibility="invisible">
 
-        <Button
-            android:id="@+id/registration_btn_cadastrar"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Informe seu endereço de e-mail"
+                android:layout_gravity="center"
+                android:textStyle="bold"
+                android:textColor="@color/layoutColor"
+                android:textSize="23dp"
+                android:layout_margin="10dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Você usará este e-mail quando fizer login."
+                android:layout_gravity="center"
+                android:textColor="#757679"
+                android:layout_margin="20dp"
+                />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:hint="Endereço de e-mail"
+
+                android:textColorHint="#757679" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Continuar"
+                android:layout_gravity="center"
+                android:layout_margin="40dp"
+                android:enabled="true"
+                android:textColor="@color/layoutColor"
+                android:background="@drawable/transparent_button"
+                android:onClick="onEmailContinueClick"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/registration_box3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Cadastrar"
-            android:layout_gravity="center"
-            android:layout_margin="10dp"
-            android:background="#aede6f"
-            android:enabled="false"
-            android:textStyle="bold"/>
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:orientation="vertical"
+            android:visibility="invisible">
 
-    </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Qual é o seu nome?"
+                android:layout_gravity="center"
+                android:textStyle="bold"
+                android:textColor="@color/layoutColor"
+                android:textSize="23dp"
+                android:layout_margin="10dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Assim poderemos identificar melhor você."
+                android:layout_gravity="center"
+                android:textColor="#757679"
+                android:layout_margin="20dp"
+                />
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TableRow>
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_gravity="center"
+                        android:hint="Nome"
+
+                        android:textColorHint="#757679" />
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_gravity="center"
+                        android:hint="Sobrenome"
+
+                        android:textColorHint="#757679" />
+                </TableRow>
+            </TableLayout>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Continuar"
+                android:layout_gravity="center"
+                android:layout_margin="40dp"
+                android:enabled="true"
+                android:textColor="@color/layoutColor"
+                android:background="@drawable/transparent_button"
+                android:onClick="onNameContinueClick"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/registration_box4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:orientation="vertical"
+            android:visibility="invisible">
+        </LinearLayout>
+
+    </RelativeLayout>
 
 </RelativeLayout>
