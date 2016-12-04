@@ -28,33 +28,27 @@ public class RegistrationActivity extends AppCompatActivity {
         registrationBox4 = (LinearLayout) findViewById(R.id.registration_box4);
     }
 
-    public void onCreateAccountContinueClick(View view) {
+    public void onContinueClick(View view) {
         changeRegistrationBox(registrationBox1,registrationBox2);
-    }
-
-    public void onEmailContinueClick(View view) {
-        changeRegistrationBox(registrationBox2,registrationBox3);
-    }
-
-    public void onNameContinueClick(View view) {
-        changeRegistrationBox(registrationBox3,registrationBox4);
     }
 
     private void changeRegistrationBox(final LinearLayout boxFrom, final LinearLayout boxTo) {
 
-        final RelativeLayout mainContent = (RelativeLayout) findViewById(R.id.registration_main);
+        final LinearLayout mainContent = (LinearLayout) findViewById(R.id.activity_registration);
 
         Animation leftToRight = AnimationUtils.loadAnimation(getBaseContext(), R.anim.left_right_animation);
 
+        boxFrom.setVisibility(View.INVISIBLE);
         leftToRight.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
-                boxFrom.setVisibility(View.INVISIBLE);
+                boxTo.setVisibility(View.VISIBLE);
+                mainContent.setVisibility(View.INVISIBLE);
             }
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                boxTo.setVisibility(View.VISIBLE);
+                mainContent.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -64,18 +58,6 @@ public class RegistrationActivity extends AppCompatActivity {
         });
 
         mainContent.startAnimation(leftToRight);
-    }
-
-    @Override
-    public void onBackPressed() {
-        if((registrationBox1.getVisibility() == View.VISIBLE) || (registrationBox2.getVisibility() == View.VISIBLE)){
-            finish();
-        } else if(registrationBox3.getVisibility() == View.VISIBLE) {
-            changeRegistrationBox(registrationBox3, registrationBox2);
-        } else if(registrationBox4.getVisibility() == View.VISIBLE) {
-            changeRegistrationBox(registrationBox4, registrationBox3);
-        }
-        super.onBackPressed();
     }
 
 }

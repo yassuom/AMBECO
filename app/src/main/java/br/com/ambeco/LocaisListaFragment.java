@@ -7,17 +7,13 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ListView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import br.com.ambeco.adapter.LocalAdapter;
 import br.com.ambeco.beans.LocalBean;
 import br.com.ambeco.dao.LocalDAO;
-import br.com.ambeco.listeners.onFilterImageClickListener;
 
 public class LocaisListaFragment extends Fragment {
 

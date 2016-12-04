@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_registration"
     android:layout_width="match_parent"
@@ -8,12 +8,14 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="br.com.ambeco.RegistrationActivity">
+    android:orientation="vertical"
+    tools:context="br.com.ambeco.RegistrationActivity"
+    android:gravity="center">
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/registration_main">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
 
         <LinearLayout
             android:id="@+id/registration_box1"
@@ -36,28 +38,10 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Crie uma conta facilmente em poucos passos"
+                android:text="Crie uma conta facilmente em poucos passos."
                 android:layout_gravity="center"
                 android:textColor="#757679"
-                android:layout_margin="20dp"/>
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Continuar"
-                android:layout_gravity="center"
-                android:layout_margin="30dp"
-                android:enabled="true"
-                android:textColor="@color/layoutColor"
-                android:background="@drawable/transparent_button"
-                android:onClick="onCreateAccountContinueClick"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="Entrar"
-                android:textColor="@color/layoutColor"/>
+                android:layout_marginTop="20dp"/>
 
         </LinearLayout>
 
@@ -75,6 +59,7 @@
                 android:layout_height="wrap_content"
                 android:text="Informe seu endereço de e-mail"
                 android:layout_gravity="center"
+                android:textAlignment="center"
                 android:textStyle="bold"
                 android:textColor="@color/layoutColor"
                 android:textSize="23dp"
@@ -83,10 +68,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Você usará este e-mail quando fizer login."
+                android:text="Você usará este e-mail quando fizer logine sempre que quiser redefinir sua senha."
                 android:layout_gravity="center"
+                android:textAlignment="center"
                 android:textColor="#757679"
-                android:layout_margin="20dp"
+                android:layout_margin="10dp"
                 />
 
             <EditText
@@ -95,19 +81,8 @@
                 android:layout_weight="1"
                 android:layout_gravity="center"
                 android:hint="Endereço de e-mail"
-
-                android:textColorHint="#757679" />
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Continuar"
-                android:layout_gravity="center"
-                android:layout_margin="40dp"
-                android:enabled="true"
-                android:textColor="@color/layoutColor"
-                android:background="@drawable/transparent_button"
-                android:onClick="onEmailContinueClick"/>
+                android:textColorHint="#757679"
+                android:layout_margin="10dp"/>
 
         </LinearLayout>
 
@@ -125,6 +100,7 @@
                 android:layout_height="wrap_content"
                 android:text="Qual é o seu nome?"
                 android:layout_gravity="center"
+                android:textAlignment="center"
                 android:textStyle="bold"
                 android:textColor="@color/layoutColor"
                 android:textSize="23dp"
@@ -133,15 +109,17 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Assim poderemos identificar melhor você."
+                android:text="É mais fácil para reconhecermos você se usar seu nome verdadeiro."
                 android:layout_gravity="center"
+                android:textAlignment="center"
                 android:textColor="#757679"
                 android:layout_margin="20dp"
                 />
 
             <TableLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_margin="20dp">
 
                 <TableRow>
                     <EditText
@@ -162,18 +140,6 @@
                         android:textColorHint="#757679" />
                 </TableRow>
             </TableLayout>
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Continuar"
-                android:layout_gravity="center"
-                android:layout_margin="40dp"
-                android:enabled="true"
-                android:textColor="@color/layoutColor"
-                android:background="@drawable/transparent_button"
-                android:onClick="onNameContinueClick"/>
-
         </LinearLayout>
 
         <LinearLayout
@@ -184,8 +150,56 @@
             android:layout_centerVertical="true"
             android:orientation="vertical"
             android:visibility="invisible">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Crie uma senha"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:textStyle="bold"
+                android:textColor="@color/layoutColor"
+                android:textSize="23dp"
+                android:layout_margin="10dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Digite uma combinação de pelo menos seis digitos."
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:textColor="#757679"
+                android:layout_margin="20dp" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:hint="Senha"
+                android:inputType="textPassword"
+                android:textColorHint="#757679"
+                android:layout_margin="20dp"/>
         </LinearLayout>
 
     </RelativeLayout>
 
-</RelativeLayout>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Continuar"
+        android:layout_gravity="center"
+        android:enabled="true"
+        android:textColor="@color/layoutColor"
+        android:background="@drawable/transparent_button"
+        android:onClick="onContinueClick"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Entrar"
+        android:textColor="@color/layoutColor"
+        android:layout_marginTop="20dp"/>
+
+</LinearLayout>
