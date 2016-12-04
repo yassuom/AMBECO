@@ -12,7 +12,7 @@
 
     <ImageView
         android:id="@+id/item_foto"
-        android:src="@drawable/image"
+        android:src="@drawable/ic_image"
         android:layout_width="64dp"
         android:layout_height="64dp"/>
 

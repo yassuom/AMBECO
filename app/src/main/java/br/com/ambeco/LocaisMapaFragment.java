@@ -1,10 +1,16 @@
 package br.com.ambeco;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.pm.PackageManager;
 import android.location.Address;
+import android.location.Criteria;
 import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -30,8 +36,6 @@ import br.com.ambeco.dao.LocalDAO;
 
 public class LocaisMapaFragment extends SupportMapFragment implements OnMapReadyCallback {
 
-    private FragmentActivity myContext;
-
     @Override
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
@@ -40,23 +44,28 @@ public class LocaisMapaFragment extends SupportMapFragment implements OnMapReady
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        LatLng posicao = getCoordenadas("Rua Lourenço Carletto 40, Jardim Cipava, Osasco");
+        LatLng posicao = getMyLocation();
 
-        if(posicao != null) {
+        if (ActivityCompat.checkSelfPermission(this.getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this.getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        googleMap.setMyLocationEnabled(Boolean.TRUE);
+
+        if (posicao != null) {
             CameraUpdate update = CameraUpdateFactory.newLatLngZoom(posicao, 17);
             googleMap.moveCamera(update);
         }
 
         LocalDAO localDAO = new LocalDAO(getContext());
-        for(LocalBean localBean: localDAO.buscaLocal(null)) {
+        for (LocalBean localBean : localDAO.buscaLocal(null)) {
 
             String enderecoCompleto = localBean.getLogradouro() + " " +
-                                        localBean.getAltura() + ", " +
-                                        //localBean.getBairro() + ", " +
-                                        localBean.getCidade();
+                    localBean.getAltura() + ", " +
+                    localBean.getCidade();
 
             LatLng coordenada = getCoordenadas(enderecoCompleto);
-            if(coordenada != null) {
+            if (coordenada != null) {
                 MarkerOptions marcador = new MarkerOptions();
                 marcador.position(coordenada);
                 marcador.title(localBean.getDescricao());
@@ -69,6 +78,21 @@ public class LocaisMapaFragment extends SupportMapFragment implements OnMapReady
 
         new Localizador(getContext(), googleMap);
 
+    }
+
+    private LatLng getMyLocation() {
+        LocationManager locationManager = (LocationManager) this.getContext().getSystemService(Context.LOCATION_SERVICE);
+        Criteria criteria = new Criteria();
+
+        if (ActivityCompat.checkSelfPermission(this.getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this.getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            return null;
+        }
+        Location location = locationManager.getLastKnownLocation(locationManager
+                .getBestProvider(criteria, false));
+        LatLng posicao = new LatLng(location.getLatitude(), location.getLongitude());
+        return posicao;
     }
 
     private LatLng getCoordenadas(String endereco) {

@@ -51,9 +51,9 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         getSupportActionBar().setDisplayShowTitleEnabled(Boolean.FALSE);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -66,48 +66,6 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         replaceFragment(new LocaisMapaFragment());
-
-        Button novo_local = (Button) findViewById(R.id.novo_local);
-        novo_local.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intentInsertLocal = new Intent(MainActivity.this, CadastraLocalActivity.class);
-                startActivity(intentInsertLocal);
-            }
-        });
-
-        ImageView box1 = (ImageView) findViewById(R.id.lista_locais_box1);
-        box1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onClickFilterImage(v);
-            }
-        });
-
-        ImageView box2 = (ImageView) findViewById(R.id.lista_locais_box2);
-        box2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onClickFilterImage(v);
-            }
-        });
-
-        ImageView box3 = (ImageView) findViewById(R.id.lista_locais_box3);
-        box3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onClickFilterImage(v);
-            }
-        });
-
-        ImageView box4 = (ImageView) findViewById(R.id.lista_locais_box4);
-        box4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onClickFilterImage(v);
-            }
-        });
-
     }
 
     @Override
@@ -122,7 +80,6 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_lista_locais, menu);
         return true;
     }
@@ -170,6 +127,7 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    // Metodo responsavel por alterar o fragment em apresentacao
     private void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction tx = fragmentManager.beginTransaction();
@@ -183,56 +141,62 @@ public class MainActivity extends AppCompatActivity
         viewById.startAnimation(fadeIn);
     }
 
-    private void onClickFilterImage(View v) {
-        Context contexto = v.getContext();
-        Animation fadeIn = AnimationUtils.loadAnimation(contexto, R.anim.fade_in);
-        Drawable imgDrawable = null;
+    // Clique do botao Novo Local
+    public void btnNovoLocalClick(View view) {
+        Intent intentInsertLocal = new Intent(MainActivity.this, CadastraLocalActivity.class);
+        startActivity(intentInsertLocal);
+    }
 
-        switch (v.getId()) {
-            case R.id.lista_locais_box1:
-                if (box1Enabled) {
-                    imgDrawable = contexto.getResources().getDrawable(R.drawable.ic_queimada_disable);
-                    box1Enabled = Boolean.FALSE;
-                } else {
-                    imgDrawable = contexto.getResources().getDrawable(R.drawable.ic_queimada_enable);
-                    box1Enabled = Boolean.TRUE;
-                }
-
-                break;
-            case R.id.lista_locais_box2:
-                if (box2Enabled) {
-                    imgDrawable = contexto.getResources().getDrawable(R.drawable.ic_deslizamento_disable);
-                    box2Enabled = Boolean.FALSE;
-                } else {
-                    imgDrawable = contexto.getResources().getDrawable(R.drawable.ic_deslizamento_enable);
-                    box2Enabled = Boolean.TRUE;
-                }
-
-                break;
-
-            case R.id.lista_locais_box3:
-                if (box3Enabled) {
-                    imgDrawable = contexto.getResources().getDrawable(R.drawable.ic_lixo_disable);
-                    box3Enabled = Boolean.FALSE;
-                } else {
-                    imgDrawable = contexto.getResources().getDrawable(R.drawable.ic_lixo_enable);
-                    box3Enabled = Boolean.TRUE;
-                }
-
-                break;
-
-            case R.id.lista_locais_box4:
-                if (box4Enabled) {
-                    imgDrawable = contexto.getResources().getDrawable(R.drawable.ic_desmatamento_disable);
-                    box4Enabled = Boolean.FALSE;
-                } else {
-                    imgDrawable = contexto.getResources().getDrawable(R.drawable.ic_desmatamento_enable);
-                    box4Enabled = Boolean.TRUE;
-                }
-
-                break;
+    // Clique filtro Queimada
+    public void imgFiltroQueimadaClick(View view) {
+        if (box1Enabled) {
+            alteraImagem(view,R.drawable.ic_queimada_disable);
+            box1Enabled = Boolean.FALSE;
+        } else {
+            alteraImagem(view,R.drawable.ic_queimada_enable);
+            box1Enabled = Boolean.TRUE;
         }
-        v.setBackground(imgDrawable);
-        v.startAnimation(fadeIn);
+    }
+
+    // Clique filtro Deslizamento
+    public void imgFiltroDeslizamentoClick(View view) {
+        if (box2Enabled) {
+            alteraImagem(view,R.drawable.ic_deslizamento_disable);
+            box2Enabled = Boolean.FALSE;
+        } else {
+            alteraImagem(view,R.drawable.ic_deslizamento_enable);
+            box2Enabled = Boolean.TRUE;
+        }
+    }
+
+    // Clique filtro Lixo
+    public void imgFiltroLixoClick(View view) {
+        if (box3Enabled) {
+            alteraImagem(view,R.drawable.ic_lixo_disable);
+            box3Enabled = Boolean.FALSE;
+        } else {
+            alteraImagem(view,R.drawable.ic_lixo_enable);
+            box3Enabled = Boolean.TRUE;
+        }
+    }
+
+    // Clique filtro Desmatamento
+    public void imgFiltroDesmatamentoClick(View view) {
+        if (box4Enabled) {
+            alteraImagem(view,R.drawable.ic_desmatamento_disable);
+            box4Enabled = Boolean.FALSE;
+        } else {
+            alteraImagem(view,R.drawable.ic_desmatamento_enable);
+            box4Enabled = Boolean.TRUE;
+        }
+    }
+
+    // Altera as imagens de filtro
+    private void alteraImagem(View view, int idImagem) {
+        Context contexto = view.getContext();
+        Animation fadeIn = AnimationUtils.loadAnimation(contexto, R.anim.fade_in);
+        Drawable imgDrawable = contexto.getResources().getDrawable(idImagem);
+        view.setBackground(imgDrawable);
+        view.startAnimation(fadeIn);
     }
 }

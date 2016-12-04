@@ -7,14 +7,13 @@
         <item name="colorAccent">@color/layoutColor</item>
     </style>
 
-    <style name="HideBar" parent="Theme.AppCompat.NoActionBar">
+    <style name="HideBar" parent="AppTheme.NoActionBar">
 
     </style>
 
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
