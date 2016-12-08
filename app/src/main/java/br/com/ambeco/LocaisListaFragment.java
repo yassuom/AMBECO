@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.List;
@@ -25,6 +26,17 @@ public class LocaisListaFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_locais_lista, container, false);
         listaLocal = (ListView) view.findViewById(R.id.lista_locais);
 
+        listaLocal.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                LocalBean local = (LocalBean) listaLocal.getItemAtPosition(position);
+
+                Intent intentDetalheLocal = new Intent(getContext(), DetalheLocalActivity.class);
+                intentDetalheLocal.putExtra("local", local);
+                startActivity(intentDetalheLocal);
+            }
+        });
+
         registerForContextMenu(listaLocal);
 
         return view;
@@ -38,7 +50,7 @@ public class LocaisListaFragment extends Fragment {
 
     private void carregaLista() {
         LocalDAO dao = new LocalDAO(getContext());
-        List<LocalBean> locais = dao.buscaLocal(null);
+        List<LocalBean> locais = dao.listaLocais();
         dao.close();
 
         LocalAdapter adapter = new LocalAdapter(getContext(), locais);

@@ -3,9 +3,10 @@ package br.com.ambeco;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -13,13 +14,15 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class LoginActivity extends AppCompatActivity {
 
+    private EditText userText;
+    private EditText passwordText;
+    private Button btnLogin;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
@@ -63,12 +66,19 @@ public class LoginActivity extends AppCompatActivity {
         };
         timerThread.start();
 
-        Button btnLogin = (Button) findViewById(R.id.login_btn_login);
+        userText = (EditText) findViewById(R.id.login_user);
+        userText.addTextChangedListener(textWatcher);
+
+        passwordText = (EditText) findViewById(R.id.login_password);
+        passwordText.addTextChangedListener(textWatcher);
+
+        btnLogin = (Button) findViewById(R.id.login_btn_entrar);
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intentLista = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(intentLista);
+                finish();
             }
         });
 
@@ -85,7 +95,6 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        finish();
     }
 
     private boolean validate(EditText[] fields){
@@ -98,18 +107,26 @@ public class LoginActivity extends AppCompatActivity {
         return true;
     }
 
-    @Override
-    public boolean onKeyUp(int keyCode, KeyEvent event) {
-        EditText userText = (EditText) findViewById(R.id.login_user);
-        EditText passwordText = (EditText) findViewById(R.id.login_password);
-        Button btnLogin = (Button) findViewById(R.id.login_btn_login);
+    private TextWatcher textWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-        boolean validaCampos = validate(new EditText[]{userText, passwordText});
-        if(validaCampos) {
-            btnLogin.setEnabled(Boolean.TRUE);
-        } else {
-            btnLogin.setEnabled(Boolean.FALSE);
         }
-        return super.onKeyUp(keyCode, event);
-    }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            boolean validaCampos = validate(new EditText[]{userText, passwordText});
+            if(validaCampos) {
+                btnLogin.setEnabled(Boolean.TRUE);
+            } else {
+                btnLogin.setEnabled(Boolean.FALSE);
+            }
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+        }
+    };
+
 }

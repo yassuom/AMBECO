@@ -23,7 +23,8 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:layout_marginTop="20dp">
 
         <EditText
             android:id="@+id/login_user"
@@ -43,15 +44,16 @@
             android:layout_marginRight="10dp"/>
 
         <Button
-            android:id="@+id/login_btn_login"
+            android:id="@+id/login_btn_entrar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Entrar"
             android:layout_gravity="center"
-            android:layout_margin="10dp"
             android:background="#aede6f"
             android:enabled="false"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"/>
 
         <TextView
             android:id="@+id/login_sign"

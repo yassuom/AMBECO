@@ -75,19 +75,14 @@ public class LocalDAO extends SQLiteOpenHelper {
         return dados;
     }
 
-    public List<LocalBean> buscaLocal(String idCategoria) {
+    public List<LocalBean> listaLocais() {
         List<LocalBean> locais = new ArrayList<LocalBean>();
         SQLiteDatabase db = getReadableDatabase();
 
         Cursor cursor = null;
-        String sql = "SELECT * FROM tbLocal ";
+        String sql = "SELECT * FROM tbLocal";
 
-        if((idCategoria != "") && (idCategoria != null)) {
-            sql = sql.concat("WHERE idCategoria in(?);");
-            cursor = db.rawQuery(sql, new String[]{idCategoria});
-        } else {
-            cursor = db.rawQuery(sql, null);
-        }
+        cursor = db.rawQuery(sql, null);
 
         while(cursor.moveToNext()) {
             LocalBean local = new LocalBean();

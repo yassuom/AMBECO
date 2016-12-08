@@ -7,10 +7,6 @@
         <item name="colorAccent">@color/layoutColor</item>
     </style>
 
-    <style name="HideBar" parent="AppTheme.NoActionBar">
-
-    </style>
-
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>

@@ -1,23 +1,15 @@
 package br.com.ambeco;
 
-import android.app.Activity;
-import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
-import android.location.Criteria;
 import android.location.Geocoder;
-import android.location.Location;
-import android.location.LocationManager;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -26,31 +18,51 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import br.com.ambeco.beans.LocalBean;
 import br.com.ambeco.dao.LocalDAO;
 
 public class LocaisMapaFragment extends SupportMapFragment implements OnMapReadyCallback {
 
+    public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
+
+    private Map<Marker, LocalBean> allMarkersMap = new HashMap<Marker, LocalBean>();
+
+
     @Override
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
-        getMapAsync(this);
+
+        if (checkLocationPermission()) {
+            if (ContextCompat.checkSelfPermission(this.getContext(),
+                    android.Manifest.permission.ACCESS_FINE_LOCATION)
+                    == PackageManager.PERMISSION_GRANTED) {
+
+                getMapAsync(this);
+            }
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        LatLng posicao = getMyLocation();
+        LatLng posicao = getCoordenadas("Rua Lourenço Carleto 40, Osasco");
 
         if (ActivityCompat.checkSelfPermission(this.getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this.getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
-        googleMap.setMyLocationEnabled(Boolean.TRUE);
 
         if (posicao != null) {
             CameraUpdate update = CameraUpdateFactory.newLatLngZoom(posicao, 17);
@@ -58,11 +70,12 @@ public class LocaisMapaFragment extends SupportMapFragment implements OnMapReady
         }
 
         LocalDAO localDAO = new LocalDAO(getContext());
-        for (LocalBean localBean : localDAO.buscaLocal(null)) {
+        for (final LocalBean localBean : localDAO.listaLocais()) {
 
             String enderecoCompleto = localBean.getLogradouro() + " " +
                     localBean.getAltura() + ", " +
                     localBean.getCidade();
+
 
             LatLng coordenada = getCoordenadas(enderecoCompleto);
             if (coordenada != null) {
@@ -71,28 +84,25 @@ public class LocaisMapaFragment extends SupportMapFragment implements OnMapReady
                 marcador.title(localBean.getDescricao());
                 marcador.snippet("Nível Degradação: " + String.valueOf(localBean.getNivelDegradacao()));
                 marcador.icon(BitmapDescriptorFactory.fromResource(getMarcador(localBean.getIdCategoria())));
-                googleMap.addMarker(marcador);
+
+                Marker marker = googleMap.addMarker(marcador);
+                allMarkersMap.put(marker, localBean);
+
+                googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                    @Override
+                    public boolean onMarkerClick(Marker marker) {
+                        LocalBean bean = allMarkersMap.get(marker);
+                        Intent intentDetalheLocal = new Intent(getContext(), DetalheLocalActivity.class);
+                        intentDetalheLocal.putExtra("local", bean);
+                        startActivity(intentDetalheLocal);
+                        return true;
+                    }
+                });
             }
         }
         localDAO.close();
 
         new Localizador(getContext(), googleMap);
-
-    }
-
-    private LatLng getMyLocation() {
-        LocationManager locationManager = (LocationManager) this.getContext().getSystemService(Context.LOCATION_SERVICE);
-        Criteria criteria = new Criteria();
-
-        if (ActivityCompat.checkSelfPermission(this.getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(this.getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
-            return null;
-        }
-        Location location = locationManager.getLastKnownLocation(locationManager
-                .getBestProvider(criteria, false));
-        LatLng posicao = new LatLng(location.getLatitude(), location.getLongitude());
-        return posicao;
     }
 
     private LatLng getCoordenadas(String endereco) {
@@ -117,6 +127,64 @@ public class LocaisMapaFragment extends SupportMapFragment implements OnMapReady
             case 3: return R.drawable.ic_marker_lixo;
             case 4: return R.drawable.ic_marker_desmatamento;
             default: return 0;
+        }
+    }
+
+    public boolean checkLocationPermission() {
+        if (ContextCompat.checkSelfPermission(this.getContext(),
+                android.Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this.getActivity(),
+                    android.Manifest.permission.ACCESS_FINE_LOCATION)) {
+
+                new AlertDialog.Builder(this.getContext())
+                        .setTitle(R.string.title_location_permission)
+                        .setMessage(R.string.text_location_permission)
+                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                ActivityCompat.requestPermissions(LocaisMapaFragment.this.getActivity(),
+                                        new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                                        MY_PERMISSIONS_REQUEST_LOCATION);
+                            }
+                        })
+                        .create()
+                        .show();
+
+
+            } else {
+                ActivityCompat.requestPermissions(this.getActivity(),
+                        new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                        MY_PERMISSIONS_REQUEST_LOCATION);
+            }
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_LOCATION: {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    if (ContextCompat.checkSelfPermission(this.getContext(),
+                            android.Manifest.permission.ACCESS_FINE_LOCATION)
+                            == PackageManager.PERMISSION_GRANTED) {
+
+                        return;
+                    }
+
+                } else {
+                    Toast.makeText(this.getContext(), "Permissão Negada!", Toast.LENGTH_SHORT).show();
+                }
+                return;
+            }
+
         }
     }
 

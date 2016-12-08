@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="250dp">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="225dp">
+
+                <ImageView
+                    android:id="@+id/detalhe_local_foto"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:src="@drawable/ic_image"
+                    android:background="#d5efb3"/>
+
+            </RelativeLayout>
+        </TableRow>
+
+        <TableLayout
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp" >
+
+            <TableRow>
+                <TextView
+                    android:id="@+id/detalhe_local_descricao"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Campo Descricao"
+                    android:textSize="20dp" />
+            </TableRow>
+            <TableRow>
+                <TextView
+                    android:id="@+id/detalhe_local_endereco"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Endereco" />
+            </TableRow>
+            <TableRow>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Descrição"
+                    android:textSize="20dp"
+                    android:layout_marginTop="25dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp" />
+            </TableRow>
+            <TableRow>
+                <TextView
+                    android:id="@+id/detalhe_local_texto"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Campo Texto"
+                    android:scrollbars="horizontal"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_gravity="left" />
+            </TableRow>
+            <TableRow>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_weight="1"
+                    android:layout_marginTop="25dp"
+                    android:background="@android:color/darker_gray"/>
+            </TableRow>
+            <TableRow android:layout_marginTop="5dp">
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp">
+                    <TableRow>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:text="Categoria: "
+                            android:gravity="left"/>
+                        <TextView
+                            android:id="@+id/detalhe_local_categoria"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:text="Campo Categoria"
+                            android:gravity="right"/>
+                    </TableRow>
+                </TableLayout>
+            </TableRow>
+            <TableRow>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_weight="1"
+                    android:layout_marginTop="5dp"
+                    android:background="@android:color/darker_gray"/>
+            </TableRow>
+            <TableRow
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp">
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+                    <TableRow>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:text="Nível de Degradação: "
+                            android:gravity="left"/>
+                        <TextView
+                            android:id="@+id/detalhe_local_nivel"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:text="Campo nivel "
+                            android:gravity="right"/>
+                    </TableRow>
+                </TableLayout>
+            </TableRow>
+
+        </TableLayout>
+
+    </TableLayout>
+
+</ScrollView>
