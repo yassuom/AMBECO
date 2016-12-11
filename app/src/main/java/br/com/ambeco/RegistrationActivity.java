@@ -27,6 +27,7 @@ public class RegistrationActivity extends AppCompatActivity {
     private EditText edtNome;
     private EditText edtSobrenome;
     private EditText edtSenha;
+    private EditText edtConfirmarSenha;
 
 
     @Override
@@ -45,6 +46,7 @@ public class RegistrationActivity extends AppCompatActivity {
         edtNome = (EditText) findViewById(R.id.registration_edtNome);
         edtSobrenome = (EditText) findViewById(R.id.registration_edtSobrenome);
         edtSenha = (EditText) findViewById(R.id.registration_edtSenha);
+        edtConfirmarSenha = (EditText) findViewById(R.id.registration_edtConfirmarSenha);
     }
 
     public void onContinueClick(View view) {
@@ -66,16 +68,16 @@ public class RegistrationActivity extends AppCompatActivity {
                 edtNome.setFocusable(Boolean.TRUE);
             }
         } else if (registrationBox4.isShown()) {
-            if(edtSenha.length() > 0) {
-
+            if((edtSenha.length() > 0)&&(edtConfirmarSenha.length() > 0)) {
                 if(edtSenha.getText().length() < 6) {
                     Toast.makeText(this, "Campo senha deve conter pelo menos seis caracteres.", Toast.LENGTH_SHORT).show();
                     edtSenha.setFocusable(Boolean.TRUE);
-                } else {
-
+                } else if(!edtSenha.getText().toString().equalsIgnoreCase(edtConfirmarSenha.getText().toString())){
+                    Toast.makeText(this, "As senhas informadas não conferem.", Toast.LENGTH_SHORT).show();
+                    edtSenha.setFocusable(Boolean.TRUE);
                 }
             } else {
-                Toast.makeText(this, "Campo senha obrigatório.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Campo senha/confirmar senha obrigatórios.", Toast.LENGTH_SHORT).show();
                 edtSenha.setFocusable(Boolean.TRUE);
             }
         }

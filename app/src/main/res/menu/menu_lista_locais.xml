@@ -10,7 +10,7 @@
         app:showAsAction="always" />
 
     <item android:id="@+id/menu_mapa"
-        android:title="Visualizar Mapa"
+        android:title="Alterar Visualização"
         android:icon="@drawable/ic_lista"
         app:showAsAction="always" />
 

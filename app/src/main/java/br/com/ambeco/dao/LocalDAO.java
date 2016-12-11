@@ -25,7 +25,7 @@ public class LocalDAO extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
 
         String sqlTableUsuario = "CREATE TABLE tbUsuario (idUsuario INTEGER PRIMARY KEY, " +
-                "usuario TEXT NOT NULL, " +
+                "email TEXT NOT NULL, " +
                 "senha TEXT NOT NULL);";
         sqLiteDatabase.execSQL(sqlTableUsuario);
 

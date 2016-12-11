@@ -180,8 +180,24 @@
                 android:hint="Senha"
                 android:inputType="textPassword"
                 android:textColorHint="#757679"
-                android:layout_margin="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
                 android:id="@+id/registration_edtSenha"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:hint="Confirmar Senha"
+                android:inputType="textPassword"
+                android:textColorHint="#757679"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="30dp"
+                android:id="@+id/registration_edtConfirmarSenha"/>
         </LinearLayout>
 
     </RelativeLayout>
