@@ -56,7 +56,8 @@
                     android:textSize="20dp"
                     android:layout_marginTop="25dp"
                     android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp" />
+                    android:layout_marginRight="5dp"
+                    android:textStyle="bold"/>
             </TableRow>
             <TableRow>
                 <TextView
@@ -92,7 +93,8 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:text="Categoria: "
-                            android:gravity="left"/>
+                            android:gravity="left"
+                            android:textStyle="bold"/>
                         <TextView
                             android:id="@+id/detalhe_local_categoria"
                             android:layout_width="match_parent"
@@ -125,7 +127,8 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:text="Nível de Degradação: "
-                            android:gravity="left"/>
+                            android:gravity="left"
+                            android:textStyle="bold"/>
                         <TextView
                             android:id="@+id/detalhe_local_nivel"
                             android:layout_width="match_parent"

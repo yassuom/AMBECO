@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="layoutColor">#8cc63f</color>
+    <color name="componentsColor">#aede6f</color>
 
     <color name="corID_queimada">#f99723</color>
     <color name="corID_deslizamento">#8cc63f</color>

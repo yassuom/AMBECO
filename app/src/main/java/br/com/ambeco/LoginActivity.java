@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -27,8 +26,8 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        final LinearLayout LoginBox = (LinearLayout) findViewById(R.id.LoginBox);
-        LoginBox.setVisibility(View.GONE);
+        final LinearLayout boxLogin = (LinearLayout) findViewById(R.id.login_boxLogin);
+        boxLogin.setVisibility(View.GONE);
 
         Thread timerThread = new Thread(){
             @Override
@@ -45,20 +44,22 @@ public class LoginActivity extends AppCompatActivity {
                             animTranslate.setAnimationListener(new Animation.AnimationListener() {
 
                                 @Override
-                                public void onAnimationStart(Animation arg0) { }
+                                public void onAnimationStart(Animation arg0) {
+                                    findViewById(R.id.login_progressBar).setVisibility(View.GONE);
+                                }
 
                                 @Override
                                 public void onAnimationRepeat(Animation arg0) { }
 
                                 @Override
                                 public void onAnimationEnd(Animation arg0) {
-                                    LoginBox.setVisibility(View.VISIBLE);
+                                    boxLogin.setVisibility(View.VISIBLE);
                                     Animation animFade  = AnimationUtils.loadAnimation(LoginActivity.this, R.anim.fade);
-                                    LoginBox.startAnimation(animFade);
+                                    boxLogin.startAnimation(animFade);
                                 }
                             });
-                            ImageView imgLogo = (ImageView) findViewById(R.id.imageView1);
-                            imgLogo.startAnimation(animTranslate);
+                            LinearLayout boxLogo = (LinearLayout) findViewById(R.id.login_boxLogo);
+                            boxLogo.startAnimation(animTranslate);
                         }
                     });
                 }
