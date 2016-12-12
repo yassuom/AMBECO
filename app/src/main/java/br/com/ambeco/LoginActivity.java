@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -24,7 +25,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText passwordText;
     private Button btnLogin;
     private LocalDAO localDAO;
-    private UserHelper userHelper = new UserHelper();
+    private UserHelper userHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +35,8 @@ public class LoginActivity extends AppCompatActivity {
 
         final LinearLayout boxLogin = (LinearLayout) findViewById(R.id.login_boxLogin);
         boxLogin.setVisibility(View.GONE);
+
+        userHelper = new UserHelper(LoginActivity.this);
 
         Thread timerThread = new Thread(){
             @Override
@@ -47,7 +50,7 @@ public class LoginActivity extends AppCompatActivity {
                         @Override
                         public void run() {
 
-                            UsuarioBean userCache = userHelper.getUserCache(LoginActivity.this);
+                            UsuarioBean userCache = userHelper.getUserCache();
 
                             UsuarioBean usuario = null;
 
@@ -159,7 +162,7 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(this, "Usuário/Senha inválidos.", Toast.LENGTH_SHORT).show();
         } else {
 
-            userHelper.setUserCache(this, userBean);
+            userHelper.setUserCache(userBean);
 
             Intent intentLista = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intentLista);

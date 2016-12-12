@@ -36,12 +36,14 @@ public class MainActivity extends AppCompatActivity
 
     private boolean isMapOnScreen = true;
 
-    private UserHelper userHelper = new UserHelper();
+    private UserHelper userHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        userHelper = new UserHelper(this);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
@@ -61,10 +63,10 @@ public class MainActivity extends AppCompatActivity
         View header = navigationView.getHeaderView(0);
 
         TextView nav_header_name = (TextView) header.findViewById(R.id.nav_header_nome);
-        nav_header_name.setText(userHelper.getUserNameFromCache(this));
+        nav_header_name.setText(userHelper.getUserNameFromCache());
 
         TextView nav_header_email = (TextView) header.findViewById(R.id.nav_header_email);
-        nav_header_email.setText(userHelper.getUserEmailFromCache(this));
+        nav_header_email.setText(userHelper.getUserEmailFromCache());
     }
 
     @Override

@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import br.com.ambeco.CadastraLocalActivity;
 import br.com.ambeco.beans.LocalBean;
+import br.com.ambeco.helpers.UserHelper;
 
 /**
  * Created by Ambeco on 06/11/16.
@@ -47,7 +48,7 @@ public class LocaisHelper {
         localBean = new LocalBean();
     }
 
-    public LocalBean getLocal() {
+    public LocalBean getLocal(int pIdUsuario) {
         localBean.setDescricao(campoDescricao.getText().toString());
         localBean.setLogradouro(campoLogradouro.getText().toString());
         localBean.setBairro(campoBairro.getText().toString());
@@ -58,6 +59,7 @@ public class LocaisHelper {
         localBean.setTexto(campoTexto.getText().toString());
         localBean.setCaminhoFoto((String) campoFoto.getTag());
         localBean.setIdCategoria(cadastraLocalActivity.getIdCategoriaSelecionada());
+        localBean.setIdUsuario(pIdUsuario);
         return localBean;
     }
 

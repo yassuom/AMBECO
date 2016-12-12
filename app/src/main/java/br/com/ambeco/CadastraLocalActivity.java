@@ -32,6 +32,7 @@ import java.io.IOException;
 import br.com.ambeco.adapter.spinnerAdapter;
 import br.com.ambeco.beans.LocalBean;
 import br.com.ambeco.dao.LocalDAO;
+import br.com.ambeco.helpers.UserHelper;
 import br.com.ambeco.utilitys.Utility;
 
 public class CadastraLocalActivity extends AppCompatActivity {
@@ -39,7 +40,7 @@ public class CadastraLocalActivity extends AppCompatActivity {
     public static final int CODIGO_CAMERA = 567;
     public static final int CODIGO_GALERIA = 568;
     private LocaisHelper locaisHelper;
-    private String caminhoFoto;
+    private UserHelper userHelper;
     private String userChoosenTask;
 
     private long idCategoriaSelecionada;
@@ -60,6 +61,7 @@ public class CadastraLocalActivity extends AppCompatActivity {
 
 
         locaisHelper = new LocaisHelper(this);
+        userHelper = new UserHelper(this);
 
         //configura o Spinner
         configureSpinner();
@@ -203,7 +205,7 @@ public class CadastraLocalActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_formulario_ok:
-                LocalBean local = locaisHelper.getLocal();
+                LocalBean local = locaisHelper.getLocal(userHelper.getUserId());
 
                 LocalDAO dao = new LocalDAO(this);
                 //if(aluno.getId() != null) {
@@ -220,15 +222,6 @@ public class CadastraLocalActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-
-    public long getIdCategoriaSelecionada() {
-        return idCategoriaSelecionada;
-    }
-
-    public void setIdCategoriaSelecionada(long idCategoriaSelecionada) {
-        this.idCategoriaSelecionada = idCategoriaSelecionada;
     }
 
     private void selectImage() {
@@ -281,8 +274,6 @@ public class CadastraLocalActivity extends AppCompatActivity {
                         cameraIntent();
                     else if(userChoosenTask.equals("Galeria"))
                         galleryIntent();
-                } else {
-
                 }
                 break;
         }
@@ -332,4 +323,11 @@ public class CadastraLocalActivity extends AppCompatActivity {
         locaisHelper.carregaImagem(thumbnail, destination.getPath());
     }
 
+    public long getIdCategoriaSelecionada() {
+        return idCategoriaSelecionada;
+    }
+
+    public void setIdCategoriaSelecionada(long idCategoriaSelecionada) {
+        this.idCategoriaSelecionada = idCategoriaSelecionada;
+    }
 }

@@ -29,7 +29,7 @@ public class LocalBean implements Serializable {
 
     private long idCategoria;
 
-    private long idUsuario;
+    private int idUsuario;
 
     public long getIdLocal() {
         return idLocal;
@@ -119,8 +119,8 @@ public class LocalBean implements Serializable {
         this.idCategoria = idCategoria;
     }
 
-    public long getIdUsuario() { return idUsuario; }
+    public int getIdUsuario() { return idUsuario; }
 
-    public void setIdUsuario(long idUsuario) { this.idUsuario = idUsuario; }
+    public void setIdUsuario(int idUsuario) { this.idUsuario = idUsuario; }
 
 }

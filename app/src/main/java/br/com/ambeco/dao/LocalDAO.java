@@ -100,7 +100,7 @@ public class LocalDAO extends SQLiteOpenHelper {
             local.setTexto(cursor.getString(cursor.getColumnIndex("texto")));
             local.setCaminhoFoto(cursor.getString(cursor.getColumnIndex("caminhoFoto")));
             local.setIdCategoria(cursor.getLong(cursor.getColumnIndex("idCategoria")));
-            local.setIdUsuario(cursor.getLong(cursor.getColumnIndex("idUsuario")));
+            local.setIdUsuario(cursor.getInt(cursor.getColumnIndex("idUsuario")));
             locais.add(local);
         }
 
