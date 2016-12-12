@@ -10,7 +10,7 @@ import br.com.ambeco.R;
 import br.com.ambeco.beans.LocalBean;
 
 /**
- * Created by Yassuo on 07/12/16.
+ * Created by Ambeco on 07/12/16.
  */
 
 public class LocaisDetalheHelper {

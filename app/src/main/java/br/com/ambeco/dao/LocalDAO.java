@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.ambeco.beans.LocalBean;
+import br.com.ambeco.beans.UsuarioBean;
 
 /**
  * Created by Ambeco on 27/10/16.
@@ -25,6 +26,8 @@ public class LocalDAO extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
 
         String sqlTableUsuario = "CREATE TABLE tbUsuario (idUsuario INTEGER PRIMARY KEY, " +
+                "nome TEXT NOT NULL, " +
+                "sobrenome TEXT NOT NULL, " +
                 "email TEXT NOT NULL, " +
                 "senha TEXT NOT NULL);";
         sqLiteDatabase.execSQL(sqlTableUsuario);
@@ -106,4 +109,55 @@ public class LocalDAO extends SQLiteOpenHelper {
         return locais;
     }
 
+    public void insertUsuario(UsuarioBean usuarioBean) {
+        SQLiteDatabase db = getWritableDatabase();
+
+        ContentValues dados = getDadosUsuario(usuarioBean);
+
+        db.insert("tbUsuario", null, dados);
+    }
+
+    private ContentValues getDadosUsuario(UsuarioBean usuarioBean) {
+        ContentValues dados = new ContentValues();
+        dados.put("nome", usuarioBean.getNome());
+        dados.put("sobrenome", usuarioBean.getSobrenome());
+        dados.put("email", usuarioBean.getEmail().toLowerCase());
+        dados.put("senha", usuarioBean.getSenha().toLowerCase());
+        return dados;
+    }
+
+    public UsuarioBean getUsuario(String strEmail, String strSenha) {
+        UsuarioBean retBean = new UsuarioBean();
+        SQLiteDatabase db = getReadableDatabase();
+
+        Cursor cursor = null;
+        String sql = "SELECT * FROM tbUsuario WHERE email = ? and senha = ?";
+
+        cursor = db.rawQuery(sql, new String[] {strEmail.toLowerCase(), strSenha.toLowerCase()} );
+
+        if(cursor.getCount() > 0) {
+
+            while(cursor.moveToNext()) {
+                retBean.setIdUsuario(cursor.getInt(cursor.getColumnIndex("idUsuario")));
+                retBean.setNome(cursor.getString(cursor.getColumnIndex("nome")));
+                retBean.setSobrenome(cursor.getString(cursor.getColumnIndex("sobrenome")));
+                retBean.setEmail(cursor.getString(cursor.getColumnIndex("email")));
+                retBean.setSenha(cursor.getString(cursor.getColumnIndex("senha")));
+            }
+
+        } else {
+            return null;
+        }
+
+        cursor.close();
+        return retBean;
+    }
+
+    public boolean usuarioExistente(String email) {
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM tbUsuario WHERE email = ?;", new String[]{email.toLowerCase()});
+        int resultado = cursor.getCount();
+        cursor.close();
+        return (resultado > 0);
+    }
 }

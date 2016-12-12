@@ -16,6 +16,9 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import br.com.ambeco.beans.UsuarioBean;
+import br.com.ambeco.dao.LocalDAO;
+
 public class RegistrationActivity extends AppCompatActivity {
 
     private LinearLayout registrationBox1;
@@ -28,6 +31,8 @@ public class RegistrationActivity extends AppCompatActivity {
     private EditText edtSobrenome;
     private EditText edtSenha;
     private EditText edtConfirmarSenha;
+    private LocalDAO localDao;
+
 
 
     @Override
@@ -47,6 +52,8 @@ public class RegistrationActivity extends AppCompatActivity {
         edtSobrenome = (EditText) findViewById(R.id.registration_edtSobrenome);
         edtSenha = (EditText) findViewById(R.id.registration_edtSenha);
         edtConfirmarSenha = (EditText) findViewById(R.id.registration_edtConfirmarSenha);
+
+        localDao = new LocalDAO(this);
     }
 
     public void onContinueClick(View view) {
@@ -55,7 +62,11 @@ public class RegistrationActivity extends AppCompatActivity {
             changeRegistrationBox(registrationBox1, registrationBox2, Boolean.FALSE);
         } else if (registrationBox2.isShown()) {
             if(edtEmail.length() > 0) {
-                changeRegistrationBox(registrationBox2, registrationBox3, Boolean.FALSE);
+                if(localDao.usuarioExistente(edtEmail.getText().toString())) {
+                    Toast.makeText(this, "Usuário informado já possui cadastro.", Toast.LENGTH_SHORT).show();
+                } else {
+                    changeRegistrationBox(registrationBox2, registrationBox3, Boolean.FALSE);
+                }
             } else {
                 Toast.makeText(this, "Campo e-mail obrigatório.", Toast.LENGTH_SHORT).show();
                 edtEmail.setFocusable(Boolean.TRUE);
@@ -75,12 +86,32 @@ public class RegistrationActivity extends AppCompatActivity {
                 } else if(!edtSenha.getText().toString().equalsIgnoreCase(edtConfirmarSenha.getText().toString())){
                     Toast.makeText(this, "As senhas informadas não conferem.", Toast.LENGTH_SHORT).show();
                     edtSenha.setFocusable(Boolean.TRUE);
+                } else {
+                    insereUsuario();
                 }
             } else {
                 Toast.makeText(this, "Campo senha/confirmar senha obrigatórios.", Toast.LENGTH_SHORT).show();
                 edtSenha.setFocusable(Boolean.TRUE);
             }
         }
+    }
+
+    private void insereUsuario() {
+        UsuarioBean userBean = new UsuarioBean();
+        String strEmail = edtEmail.getText().toString();
+        String strNome = edtNome.getText().toString();
+        String strSobrenome = edtSobrenome.getText().toString();
+        String strSenha = edtSenha.getText().toString();
+
+        userBean.setEmail(strEmail);
+        userBean.setNome(strNome);
+        userBean.setSobrenome(strSobrenome);
+        userBean.setSenha(strSenha);
+
+        localDao.insertUsuario(userBean);
+
+        Toast.makeText(this, "Cadastro concluído com sucesso.", Toast.LENGTH_SHORT).show();
+        finish();
     }
 
     private void changeRegistrationBox(final LinearLayout boxFrom, final LinearLayout boxTo, final boolean ret) {

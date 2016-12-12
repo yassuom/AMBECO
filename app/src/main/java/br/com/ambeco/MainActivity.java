@@ -19,6 +19,9 @@ import android.view.MenuItem;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
+import android.widget.TextView;
+
+import br.com.ambeco.helpers.UserHelper;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -32,6 +35,8 @@ public class MainActivity extends AppCompatActivity
     private boolean box4Enabled = false;
 
     private boolean isMapOnScreen = true;
+
+    private UserHelper userHelper = new UserHelper();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +57,14 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         replaceFragment(new LocaisMapaFragment());
+
+        View header = navigationView.getHeaderView(0);
+
+        TextView nav_header_name = (TextView) header.findViewById(R.id.nav_header_nome);
+        nav_header_name.setText(userHelper.getUserNameFromCache(this));
+
+        TextView nav_header_email = (TextView) header.findViewById(R.id.nav_header_email);
+        nav_header_email.setText(userHelper.getUserEmailFromCache(this));
     }
 
     @Override

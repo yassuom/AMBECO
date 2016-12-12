@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Environment;
@@ -267,10 +268,8 @@ public class CadastraLocalActivity extends AppCompatActivity {
 
     private void galleryIntent()
     {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);//
-        startActivityForResult(Intent.createChooser(intent, "Select File"),CODIGO_GALERIA);
+        Intent i = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(i, CODIGO_GALERIA);
     }
 
     @Override
@@ -291,16 +290,26 @@ public class CadastraLocalActivity extends AppCompatActivity {
 
     @SuppressWarnings("deprecation")
     private void onSelectFromGalleryResult(Intent data) {
-        Bitmap bm = null;
         if (data != null) {
+            Uri selectedImage = data.getData();
+            String [] filePathColumn = { MediaStore.Images.Media.DATA};
+            Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
+            cursor.moveToFirst();
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            String picturePath = cursor.getString(columnIndex);
+            cursor.close();
+
+            Bitmap bm = null;
 
             try {
-                bm = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), data.getData());
+                bm = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), selectedImage);
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
+            locaisHelper.carregaImagem(bm, picturePath);
         }
-        locaisHelper.carregaImagem(bm, data.getData().getPath());
+
     }
 
     private void onCaptureImageResult(Intent data) {
