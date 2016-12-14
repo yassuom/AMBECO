@@ -1,0 +1,83 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="br.com.ambeco.LocaisFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/lista_locais_filtros"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:orientation="horizontal"
+            android:layout_gravity="top">
+
+            <ImageView
+                android:id="@+id/lista_locais_filtro_queimada"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight=".20"
+                android:layout_margin="2dp"
+                android:background="@drawable/ic_queimada_disable" />
+
+            <ImageView
+                android:id="@+id/lista_locais_filtro_deslizamento"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight=".20"
+                android:layout_margin="2dp"
+                android:background="@drawable/ic_deslizamento_disable" />
+
+            <ImageView
+                android:id="@+id/lista_locais_filtro_lixo"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight=".20"
+                android:layout_margin="2dp"
+                android:background="@drawable/ic_lixo_disable" />
+
+            <ImageView
+                android:id="@+id/lista_locais_filtro_desmatamento"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight=".20"
+                android:layout_margin="2dp"
+                android:background="@drawable/ic_desmatamento_disable" />
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.gms.maps.MapView
+                android:id="@+id/map"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <LinearLayout
+                android:id="@+id/locais_lista"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:background="@color/componentsColor"
+                android:visibility="invisible">
+
+                <ListView
+                    android:id="@+id/lista_locais"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"/>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+</FrameLayout>

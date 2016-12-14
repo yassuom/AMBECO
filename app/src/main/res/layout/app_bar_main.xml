@@ -31,57 +31,10 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <LinearLayout
-        android:id="@+id/lista_locais_filtros"
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:orientation="horizontal"
-        android:layout_gravity="top"
-        android:layout_marginTop="50dp">
-
-        <ImageView
-            android:id="@+id/lista_locais_filtro_queimada"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight=".20"
-            android:layout_margin="2dp"
-            android:background="@drawable/ic_queimada_disable"
-            android:onClick="imgFiltroQueimadaClick"/>
-
-        <ImageView
-            android:id="@+id/lista_locais_filtro_deslizamento"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight=".20"
-            android:layout_margin="2dp"
-            android:background="@drawable/ic_deslizamento_disable"
-            android:onClick="imgFiltroDeslizamentoClick"/>
-
-        <ImageView
-            android:id="@+id/lista_locais_filtro_lixo"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight=".20"
-            android:layout_margin="2dp"
-            android:background="@drawable/ic_lixo_disable"
-            android:onClick="imgFiltroLixoClick"/>
-
-        <ImageView
-            android:id="@+id/lista_locais_filtro_desmatamento"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight=".20"
-            android:layout_margin="2dp"
-            android:background="@drawable/ic_desmatamento_disable"
-            android:onClick="imgFiltroDesmatamentoClick"/>
-
-    </LinearLayout>
-
     <FrameLayout
         android:id="@+id/frame_principal"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="70dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
     <Button
@@ -98,7 +51,5 @@
         android:stateListAnimator="@null"
         app:layout_anchorGravity="bottom|right|end"
         android:onClick="btnNovoLocalClick"/>
-
-
 
 </android.support.design.widget.CoordinatorLayout>

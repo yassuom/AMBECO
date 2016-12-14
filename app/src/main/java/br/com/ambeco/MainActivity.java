@@ -27,19 +27,13 @@ import br.com.ambeco.helpers.UserHelper;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private boolean box1Enabled = false;
-
-    private boolean box2Enabled = false;
-
-    private boolean box3Enabled = false;
-
-    private boolean box4Enabled = false;
-
     private boolean isMapOnScreen = true;
 
     private UserHelper userHelper;
 
     private Menu menuMain;
+
+    private LocaisFragment fragmentLocal = new LocaisFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +55,7 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        replaceFragment(new LocaisMapaFragment());
+        replaceFragment(fragmentLocal);
 
         View header = navigationView.getHeaderView(0);
 
@@ -98,11 +92,15 @@ public class MainActivity extends AppCompatActivity
 
                 if(isMapOnScreen) {
                     isMapOnScreen = false;
-                    replaceFragment(new LocaisListaFragment());
+                    //fragmentLocal.getFrameMapa().setVisibility(View.INVISIBLE);
+                    fragmentLocal.getLayoutLista().setVisibility(View.VISIBLE);
+
                     idMapMenuIcon = getResources().getDrawable(R.drawable.ic_mapa);
                 } else {
                     isMapOnScreen = true;
-                    replaceFragment(new LocaisMapaFragment());
+                    //fragmentLocal.getFrameMapa().setVisibility(View.VISIBLE);
+                    fragmentLocal.getLayoutLista().setVisibility(View.INVISIBLE);
+
                     idMapMenuIcon = getResources().getDrawable(R.drawable.ic_lista);
                 }
 
@@ -119,13 +117,9 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_lista) {
+            replaceFragment(new LocaisFragment());
             setMenuItemVisibility(Boolean.TRUE);
             setFiltersBoxVisibility(View.VISIBLE);
-            if(isMapOnScreen) {
-                replaceFragment(new LocaisMapaFragment());
-            } else {
-                replaceFragment(new LocaisListaFragment());
-            }
         }
         if (id == R.id.nav_meus_locais) {
             replaceFragment(new MeusLocaisFragment());
@@ -162,59 +156,6 @@ public class MainActivity extends AppCompatActivity
     public void btnNovoLocalClick(View view) {
         Intent intentInsertLocal = new Intent(MainActivity.this, CadastraLocalActivity.class);
         startActivity(intentInsertLocal);
-    }
-
-    // Clique filtro Queimada
-    public void imgFiltroQueimadaClick(View view) {
-        if (box1Enabled) {
-            alteraImagem(view,R.drawable.ic_queimada_disable);
-            box1Enabled = Boolean.FALSE;
-        } else {
-            alteraImagem(view,R.drawable.ic_queimada_enable);
-            box1Enabled = Boolean.TRUE;
-        }
-    }
-
-    // Clique filtro Deslizamento
-    public void imgFiltroDeslizamentoClick(View view) {
-        if (box2Enabled) {
-            alteraImagem(view,R.drawable.ic_deslizamento_disable);
-            box2Enabled = Boolean.FALSE;
-        } else {
-            alteraImagem(view,R.drawable.ic_deslizamento_enable);
-            box2Enabled = Boolean.TRUE;
-        }
-    }
-
-    // Clique filtro Lixo
-    public void imgFiltroLixoClick(View view) {
-        if (box3Enabled) {
-            alteraImagem(view,R.drawable.ic_lixo_disable);
-            box3Enabled = Boolean.FALSE;
-        } else {
-            alteraImagem(view,R.drawable.ic_lixo_enable);
-            box3Enabled = Boolean.TRUE;
-        }
-    }
-
-    // Clique filtro Desmatamento
-    public void imgFiltroDesmatamentoClick(View view) {
-        if (box4Enabled) {
-            alteraImagem(view,R.drawable.ic_desmatamento_disable);
-            box4Enabled = Boolean.FALSE;
-        } else {
-            alteraImagem(view,R.drawable.ic_desmatamento_enable);
-            box4Enabled = Boolean.TRUE;
-        }
-    }
-
-    // Altera as imagens de filtro
-    private void alteraImagem(View view, int idImagem) {
-        Context contexto = view.getContext();
-        Animation fadeIn = AnimationUtils.loadAnimation(contexto, R.anim.fade_in);
-        Drawable imgDrawable = contexto.getResources().getDrawable(idImagem);
-        view.setBackground(imgDrawable);
-        view.startAnimation(fadeIn);
     }
 
     private void setMenuItemVisibility(Boolean status) {
