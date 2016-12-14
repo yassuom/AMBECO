@@ -19,6 +19,7 @@ import android.view.MenuItem;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import br.com.ambeco.helpers.UserHelper;
@@ -37,6 +38,8 @@ public class MainActivity extends AppCompatActivity
     private boolean isMapOnScreen = true;
 
     private UserHelper userHelper;
+
+    private Menu menuMain;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +85,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_lista_locais, menu);
+        menuMain = menu;
         return true;
     }
 
@@ -112,14 +116,26 @@ public class MainActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_share) {
+        if (id == R.id.nav_lista) {
+            setMenuItemVisibility(Boolean.TRUE);
+            setFiltersBoxVisibility(View.VISIBLE);
+            if(isMapOnScreen) {
+                replaceFragment(new LocaisMapaFragment());
+            } else {
+                replaceFragment(new LocaisListaFragment());
+            }
+        }
+        if (id == R.id.nav_meus_locais) {
+            replaceFragment(new MeusLocaisFragment());
+            setMenuItemVisibility(Boolean.FALSE);
+            setFiltersBoxVisibility(View.INVISIBLE);
+        } else if (id == R.id.nav_favoritos) {
+            replaceFragment(new MeusFavoritosFragment());
+            setMenuItemVisibility(Boolean.FALSE);
+            setFiltersBoxVisibility(View.INVISIBLE);
+        } else if (id == R.id.nav_logoff) {
 
         }
 
@@ -199,5 +215,15 @@ public class MainActivity extends AppCompatActivity
         Drawable imgDrawable = contexto.getResources().getDrawable(idImagem);
         view.setBackground(imgDrawable);
         view.startAnimation(fadeIn);
+    }
+
+    private void setMenuItemVisibility(Boolean status) {
+        menuMain.getItem(0).setVisible(status);
+        menuMain.getItem(1).setVisible(status);
+    }
+
+    private void setFiltersBoxVisibility(int visibility) {
+        LinearLayout filterBox = (LinearLayout) findViewById(R.id.lista_locais_filtros);
+        filterBox.setVisibility(visibility);
     }
 }

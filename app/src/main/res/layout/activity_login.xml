@@ -95,14 +95,6 @@
             android:layout_width="230dp"
             android:layout_height="40dp"
             android:layout_gravity="center"
-            android:id="@+id/login_facebook"
-            android:layout_margin="10dp"
-            android:src="@drawable/fb_login"/>
-
-        <ImageView
-            android:layout_width="230dp"
-            android:layout_height="40dp"
-            android:layout_gravity="center"
             android:id="@+id/login_google"
             android:src="@drawable/gp_login"/>
 

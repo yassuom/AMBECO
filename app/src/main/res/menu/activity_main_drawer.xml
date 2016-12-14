@@ -2,23 +2,24 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <group android:checkableBehavior="single">
+
         <item
-            android:id="@+id/nav_camera"
+            android:id="@+id/nav_lista"
+            android:icon="@drawable/ic_lista"
+            android:title="Lista" />
+        <item
+            android:id="@+id/nav_meus_locais"
             android:icon="@drawable/ic_menu_gallery"
             android:title="Meus Locais" />
         <item
-            android:id="@+id/nav_gallery"
+            android:id="@+id/nav_favoritos"
             android:icon="@drawable/ic_menu_favorite"
             android:title="Favoritos" />
-    </group>
 
-    <item android:title="Comunicação">
-        <menu>
-            <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Compartilhar" />
-        </menu>
-    </item>
+        <item android:id="@+id/nav_logoff"
+            android:icon="@drawable/ic_exit"
+            android:title="Logoff" />
+
+    </group>
 
 </menu>

@@ -34,11 +34,11 @@
         <activity
             android:name=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-
-        <activity android:name=".CadastraLocalActivity"
+        <activity
+            android:name=".CadastraLocalActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-
-        <activity android:name=".DetalheLocalActivity"
+        <activity
+            android:name=".DetalheLocalActivity"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <!--
