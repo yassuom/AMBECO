@@ -59,4 +59,15 @@ public class UserHelper {
         return idRet;
     }
 
+    public void clearUserCache() {
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putBoolean("usuarioLogado", Boolean.FALSE);
+        editor.remove("idUsuario");
+        editor.remove("email");
+        editor.remove("password");
+        editor.remove("nome");
+        editor.remove("sobrenome");
+        editor.commit();
+    }
+
 }

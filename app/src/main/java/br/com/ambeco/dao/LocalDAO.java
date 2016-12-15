@@ -254,12 +254,19 @@ public class LocalDAO extends SQLiteOpenHelper {
         db.insert("tbFavoritos", null, dados);
     }
 
+    public void excluiFavorito(int pIdLocal, int pIdUsuario) {
+        SQLiteDatabase db = getWritableDatabase();
+
+        db.delete("tbFavoritos", "idLocal = ? and idUsuario = ?", new String[]{String.valueOf(pIdLocal),String.valueOf(pIdUsuario)});
+    }
+
     private ContentValues getDadosFavoritos(int pIdLocal, int pIdUsuario) {
         ContentValues dados = new ContentValues();
         dados.put("idLocal", pIdLocal);
         dados.put("idUsuario", pIdUsuario);
         return dados;
     }
+
 
 
 }

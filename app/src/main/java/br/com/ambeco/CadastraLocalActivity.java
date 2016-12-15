@@ -56,20 +56,12 @@ public class CadastraLocalActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastra_local);
 
+        locaisHelper = new LocaisHelper(this);
+        userHelper = new UserHelper(this);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.cadastra_local_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(Boolean.FALSE);
-
-        Intent intent = getIntent();
-        LocalBean localBean = (LocalBean) intent.getSerializableExtra("local");
-
-        if(localBean != null) {
-            locaisHelper.preencheFormulario(localBean);
-        }
-
-
-        locaisHelper = new LocaisHelper(this);
-        userHelper = new UserHelper(this);
 
         //configura o Spinner
         configureSpinner();
@@ -216,11 +208,7 @@ public class CadastraLocalActivity extends AppCompatActivity {
                 LocalBean local = locaisHelper.getLocal(userHelper.getUserId());
 
                 LocalDAO dao = new LocalDAO(this);
-                //if(aluno.getId() != null) {
-                //    dao.alteraAluno(aluno);
-                //} else {
-                    dao.insertLocal(local);
-                //}
+                dao.insertLocal(local);
                 dao.close();
 
                 Toast.makeText(CadastraLocalActivity.this, "Local "+ local.getDescricao() + " salvo!", Toast.LENGTH_SHORT).show();

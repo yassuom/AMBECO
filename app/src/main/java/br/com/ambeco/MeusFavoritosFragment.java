@@ -1,11 +1,15 @@
 package br.com.ambeco;
 
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -66,5 +70,48 @@ public class MeusFavoritosFragment extends Fragment {
 
         LocalAdapter adapter = new LocalAdapter(getContext(), locais);
         listaLocal.setAdapter(adapter);
+    }
+
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+        final LocalBean localBean = (LocalBean) listaLocal.getItemAtPosition(info.position);
+
+        //item de menu deletar
+        MenuItem deletar = menu.add("Remover dos meus favoritos");
+        deletar.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+
+                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which){
+                            case DialogInterface.BUTTON_POSITIVE:
+
+                                LocalDAO dao = new LocalDAO(getContext());
+                                UserHelper userHelper = new UserHelper(getContext());
+
+                                dao.excluiFavorito((int)localBean.getIdLocal(), userHelper.getUserId());
+                                dao.close();
+
+                                carregaLista();
+                                break;
+
+                            case DialogInterface.BUTTON_NEGATIVE:
+                                //No button clicked
+                                break;
+                        }
+                    }
+                };
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setMessage("Deseja excluir o local dos meus favoritos?").setPositiveButton("Sim", dialogClickListener)
+                        .setNegativeButton("Não", dialogClickListener).show();
+
+                return true;
+            }
+        });
     }
 }

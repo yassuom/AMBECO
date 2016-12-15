@@ -1,21 +1,26 @@
 package br.com.ambeco;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.List;
 
 import br.com.ambeco.adapter.LocalAdapter;
 import br.com.ambeco.beans.LocalBean;
 import br.com.ambeco.dao.LocalDAO;
+import br.com.ambeco.helpers.UserHelper;
 
 public class LocaisListaFragment extends Fragment {
 
@@ -71,6 +76,21 @@ public class LocaisListaFragment extends Fragment {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
         final LocalBean localBean = (LocalBean) listaLocal.getItemAtPosition(info.position);
 
+        MenuItem favoritos = menu.add("Adicionar aos favoritos");
+        favoritos.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+
+                LocalDAO localDAO = new LocalDAO(getContext());
+                UserHelper userHelper = new UserHelper(getContext());
+
+                localDAO.insertFavorito((int)localBean.getIdLocal(), userHelper.getUserId());
+
+                Toast.makeText(getContext(), "Local Adicionado aos Favoritos!", Toast.LENGTH_SHORT).show();
+
+                return true;
+            }
+        });
 
     }
 }

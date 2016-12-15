@@ -40,7 +40,6 @@ public class LocaisHelper {
 
     private LocalBean localBean;
 
-
     public LocaisHelper(CadastraLocalActivity activity) {
         cadastraLocalActivity = activity;
         campoDescricao = (EditText) activity.findViewById(R.id.cadastra_local_descricao);
@@ -72,35 +71,6 @@ public class LocaisHelper {
         localBean.setIdCategoria(cadastraLocalActivity.getIdCategoriaSelecionada());
         localBean.setIdUsuario(pIdUsuario);
         return localBean;
-    }
-
-    public void preencheFormulario(LocalBean localBean) {
-        campoDescricao.setText(localBean.getDescricao());
-        campoLogradouro.setText(localBean.getLogradouro());
-        campoBairro.setText(localBean.getBairro());
-        campoAltura.setText(String.valueOf(localBean.getAltura()));
-        campoCidade.setText(localBean.getCidade());
-        campoUf.setTag(localBean.getUf());
-        campoNivelDegradacao.setProgress((int)localBean.getNivelDegradacao());
-        campoTexto.setText(localBean.getTexto());
-        carregaImageFromPath(localBean.getCaminhoFoto());
-
-        switch ((int)localBean.getIdCategoria()) {
-            case 1: campoQueimada.setChecked(Boolean.TRUE);
-            case 2: campoDeslizamento.setChecked(Boolean.TRUE);
-            case 3: campoLixo.setChecked(Boolean.TRUE);
-            case 4: campoDesmatamento.setChecked(Boolean.TRUE);
-        }
-    }
-
-    public void carregaImageFromPath(String caminhoFoto) {
-        if (caminhoFoto != null) {
-            Bitmap bitmap = BitmapFactory.decodeFile(caminhoFoto);
-            Bitmap bitmapReduzido = Bitmap.createScaledBitmap(bitmap, 300, 300, true);
-            campoFoto.setImageBitmap(bitmapReduzido);
-            campoFoto.setScaleType(ImageView.ScaleType.FIT_XY);
-            campoFoto.setTag(caminhoFoto);
-        }
     }
 
     public void carregaImagem(Bitmap bitMapFoto, String caminhoFoto) {

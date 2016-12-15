@@ -1,10 +1,12 @@
 package br.com.ambeco;
 
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -39,11 +41,11 @@ public class MeusLocaisFragment extends Fragment {
         listaLocal.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> lista, View item, int position, long id) {
-                LocalBean localBean = (LocalBean) listaLocal.getItemAtPosition(position);
+                LocalBean local = (LocalBean) listaLocal.getItemAtPosition(position);
 
-                Intent intentVaiParaFormulario = new Intent(getContext(), CadastraLocalActivity.class);
-                intentVaiParaFormulario.putExtra("local", localBean);
-                startActivity(intentVaiParaFormulario);
+                Intent intentDetalheLocal = new Intent(getContext(), DetalheLocalActivity.class);
+                intentDetalheLocal.putExtra("local", local);
+                startActivity(intentDetalheLocal);
             }
         });
 
@@ -80,15 +82,32 @@ public class MeusLocaisFragment extends Fragment {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
 
-                LocalDAO dao = new LocalDAO(getContext());
-                dao.deletaLocal(localBean);
-                dao.close();
+                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which){
+                            case DialogInterface.BUTTON_POSITIVE:
+                                LocalDAO dao = new LocalDAO(getContext());
+                                dao.deletaLocal(localBean);
+                                dao.close();
 
-                carregaLista();
-                return false;
+                                carregaLista();
+                                break;
+
+                            case DialogInterface.BUTTON_NEGATIVE:
+                                //No button clicked
+                                break;
+                        }
+                    }
+                };
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setMessage("Deseja excluir o local selecionado?").setPositiveButton("Sim", dialogClickListener)
+                        .setNegativeButton("Não", dialogClickListener).show();
+
+                return true;
             }
         });
-
     }
 
 }
