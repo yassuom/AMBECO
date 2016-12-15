@@ -11,7 +11,7 @@ import br.com.ambeco.beans.UsuarioBean;
 
 public class UserHelper {
 
-    public static final String PREFS_NAME = "MyPrefsFile";
+    public static final String PREFS_NAME = "UserPref";
 
     private SharedPreferences settings = null;
 

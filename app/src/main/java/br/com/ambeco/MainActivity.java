@@ -92,15 +92,11 @@ public class MainActivity extends AppCompatActivity
 
                 if(isMapOnScreen) {
                     isMapOnScreen = false;
-                    //fragmentLocal.getFrameMapa().setVisibility(View.INVISIBLE);
-                    fragmentLocal.getLayoutLista().setVisibility(View.VISIBLE);
-
+                    fragmentLocal.changeLayout(R.string.layout_lista);
                     idMapMenuIcon = getResources().getDrawable(R.drawable.ic_mapa);
                 } else {
                     isMapOnScreen = true;
-                    //fragmentLocal.getFrameMapa().setVisibility(View.VISIBLE);
-                    fragmentLocal.getLayoutLista().setVisibility(View.INVISIBLE);
-
+                    fragmentLocal.changeLayout(R.string.layout_mapa);
                     idMapMenuIcon = getResources().getDrawable(R.drawable.ic_lista);
                 }
 
@@ -119,16 +115,13 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_lista) {
             replaceFragment(new LocaisFragment());
             setMenuItemVisibility(Boolean.TRUE);
-            setFiltersBoxVisibility(View.VISIBLE);
         }
         if (id == R.id.nav_meus_locais) {
             replaceFragment(new MeusLocaisFragment());
             setMenuItemVisibility(Boolean.FALSE);
-            setFiltersBoxVisibility(View.INVISIBLE);
         } else if (id == R.id.nav_favoritos) {
             replaceFragment(new MeusFavoritosFragment());
             setMenuItemVisibility(Boolean.FALSE);
-            setFiltersBoxVisibility(View.INVISIBLE);
         } else if (id == R.id.nav_logoff) {
 
         }
@@ -163,8 +156,4 @@ public class MainActivity extends AppCompatActivity
         menuMain.getItem(1).setVisible(status);
     }
 
-    private void setFiltersBoxVisibility(int visibility) {
-        LinearLayout filterBox = (LinearLayout) findViewById(R.id.lista_locais_filtros);
-        filterBox.setVisibility(visibility);
-    }
 }

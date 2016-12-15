@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,8 @@ import br.com.ambeco.dao.LocalDAO;
 public class LocaisListaFragment extends Fragment {
 
     private ListView listaLocal;
+
+    private String filter;
 
     @Nullable
     @Override
@@ -45,16 +48,29 @@ public class LocaisListaFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+
+        Bundle params = getArguments();
+        if(params != null) {
+            filter = (String) params.getSerializable("filter");
+        }
+
         carregaLista();
     }
 
     private void carregaLista() {
         LocalDAO dao = new LocalDAO(getContext());
-        List<LocalBean> locais = dao.listaLocais();
+        List<LocalBean> locais = dao.listaLocais(filter);
         dao.close();
 
         LocalAdapter adapter = new LocalAdapter(getContext(), locais);
         listaLocal.setAdapter(adapter);
     }
 
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+        final LocalBean localBean = (LocalBean) listaLocal.getItemAtPosition(info.position);
+
+
+    }
 }

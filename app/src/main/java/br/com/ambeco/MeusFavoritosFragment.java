@@ -16,6 +16,7 @@ import java.util.List;
 import br.com.ambeco.adapter.LocalAdapter;
 import br.com.ambeco.beans.LocalBean;
 import br.com.ambeco.dao.LocalDAO;
+import br.com.ambeco.helpers.UserHelper;
 
 
 /**
@@ -25,6 +26,8 @@ public class MeusFavoritosFragment extends Fragment {
 
 
     private ListView listaLocal;
+
+    private UserHelper userHelper;
 
     @Nullable
     @Override
@@ -45,6 +48,8 @@ public class MeusFavoritosFragment extends Fragment {
 
         registerForContextMenu(listaLocal);
 
+        userHelper = new UserHelper(view.getContext());
+
         return view;
     }
 
@@ -56,7 +61,7 @@ public class MeusFavoritosFragment extends Fragment {
 
     private void carregaLista() {
         LocalDAO dao = new LocalDAO(getContext());
-        List<LocalBean> locais = dao.listaLocais();
+        List<LocalBean> locais = dao.listaMeusLocaisFavoritos(userHelper.getUserId());
         dao.close();
 
         LocalAdapter adapter = new LocalAdapter(getContext(), locais);

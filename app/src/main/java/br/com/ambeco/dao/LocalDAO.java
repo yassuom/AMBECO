@@ -5,12 +5,15 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.ambeco.LocaisFragment;
 import br.com.ambeco.beans.LocalBean;
 import br.com.ambeco.beans.UsuarioBean;
+import br.com.ambeco.helpers.FilterHelper;
 
 /**
  * Created by Ambeco on 27/10/16.
@@ -18,8 +21,11 @@ import br.com.ambeco.beans.UsuarioBean;
 
 public class LocalDAO extends SQLiteOpenHelper {
 
+    Context contexto;
+
     public LocalDAO(Context context) {
         super(context, "Ambeco", null, 1);
+        contexto = context;
     }
 
     @Override
@@ -47,6 +53,12 @@ public class LocalDAO extends SQLiteOpenHelper {
                 "FOREIGN KEY(idUsuario) REFERENCES tbUsuario(idUsuario)); ";
         sqLiteDatabase.execSQL(sqlTableLocais);
 
+        String sqlTableLocaisFavoritos = "CREATE TABLE tbFavoritos (idLocal INTEGER NOT NULL, " +
+                "idUsuario INTEGER NOT NULL, " +
+                "FOREIGN KEY(idLocal) REFERENCES tbLocal(idLocal) " +
+                "FOREIGN KEY(idUsuario) REFERENCES tbUsuario(idUsuario)); ";
+        sqLiteDatabase.execSQL(sqlTableLocaisFavoritos);
+
     }
 
     @Override
@@ -60,6 +72,14 @@ public class LocalDAO extends SQLiteOpenHelper {
         ContentValues dados = getDadosLocal(localBean);
 
         db.insert("tbLocal", null, dados);
+    }
+
+    public void deletaLocal(LocalBean localBean) {
+        SQLiteDatabase db = getWritableDatabase();
+
+        String[] params = {String.valueOf(localBean.getIdLocal())};
+        db.delete("tbFavoritos", "idLocal = ?", params);
+        db.delete("tbLocal", "idLocal = ?", params);
     }
 
     private ContentValues getDadosLocal(LocalBean localBean) {
@@ -78,14 +98,49 @@ public class LocalDAO extends SQLiteOpenHelper {
         return dados;
     }
 
-    public List<LocalBean> listaLocais() {
+    public List<LocalBean> listaLocais(String filter) {
         List<LocalBean> locais = new ArrayList<LocalBean>();
         SQLiteDatabase db = getReadableDatabase();
 
         Cursor cursor = null;
-        String sql = "SELECT * FROM tbLocal";
 
-        cursor = db.rawQuery(sql, null);
+        if(filter == "") {
+            String sql = "SELECT * FROM tbLocal";
+            cursor = db.rawQuery(sql, null);
+        } else {
+            String sql = "SELECT * FROM tbLocal WHERE idCategoria in(" + filter + ") ";
+            cursor = db.rawQuery(sql, null);
+        }
+
+        while(cursor.moveToNext()) {
+            LocalBean local = new LocalBean();
+            local.setIdLocal(cursor.getLong(cursor.getColumnIndex("idLocal")));
+            local.setDescricao(cursor.getString(cursor.getColumnIndex("descricao")));
+            local.setLogradouro(cursor.getString(cursor.getColumnIndex("logradouro")));
+            local.setBairro(cursor.getString(cursor.getColumnIndex("bairro")));
+            local.setAltura(cursor.getLong(cursor.getColumnIndex("altura")));
+            local.setCidade(cursor.getString(cursor.getColumnIndex("cidade")));
+            local.setUf(cursor.getString(cursor.getColumnIndex("uf")));
+            local.setNivelDegradacao(cursor.getLong(cursor.getColumnIndex("nivelDegradacao")));
+            local.setTexto(cursor.getString(cursor.getColumnIndex("texto")));
+            local.setCaminhoFoto(cursor.getString(cursor.getColumnIndex("caminhoFoto")));
+            local.setIdCategoria(cursor.getLong(cursor.getColumnIndex("idCategoria")));
+            local.setIdUsuario(cursor.getInt(cursor.getColumnIndex("idUsuario")));
+            locais.add(local);
+        }
+
+        cursor.close();
+
+        return locais;
+    }
+
+    public List<LocalBean> listaMeusLocais(int pIdUsuario) {
+        List<LocalBean> locais = new ArrayList<LocalBean>();
+        SQLiteDatabase db = getReadableDatabase();
+
+        Cursor cursor = null;
+
+        cursor = db.rawQuery( "SELECT * FROM tbLocal WHERE idUsuario = ?", new String[]{String.valueOf(pIdUsuario)});
 
         while(cursor.moveToNext()) {
             LocalBean local = new LocalBean();
@@ -160,4 +215,51 @@ public class LocalDAO extends SQLiteOpenHelper {
         cursor.close();
         return (resultado > 0);
     }
+
+    public List<LocalBean> listaMeusLocaisFavoritos(int pIdUsuario) {
+        List<LocalBean> locais = new ArrayList<LocalBean>();
+        SQLiteDatabase db = getReadableDatabase();
+
+        Cursor cursor = null;
+
+        cursor = db.rawQuery( "SELECT * FROM tbLocal INNER JOIN tbFavoritos ON tbLocal.idLocal = tbFavoritos.idLocal WHERE tbFavoritos.idUsuario = ?", new String[]{String.valueOf(pIdUsuario)});
+
+        while(cursor.moveToNext()) {
+            LocalBean local = new LocalBean();
+            local.setIdLocal(cursor.getLong(cursor.getColumnIndex("idLocal")));
+            local.setDescricao(cursor.getString(cursor.getColumnIndex("descricao")));
+            local.setLogradouro(cursor.getString(cursor.getColumnIndex("logradouro")));
+            local.setBairro(cursor.getString(cursor.getColumnIndex("bairro")));
+            local.setAltura(cursor.getLong(cursor.getColumnIndex("altura")));
+            local.setCidade(cursor.getString(cursor.getColumnIndex("cidade")));
+            local.setUf(cursor.getString(cursor.getColumnIndex("uf")));
+            local.setNivelDegradacao(cursor.getLong(cursor.getColumnIndex("nivelDegradacao")));
+            local.setTexto(cursor.getString(cursor.getColumnIndex("texto")));
+            local.setCaminhoFoto(cursor.getString(cursor.getColumnIndex("caminhoFoto")));
+            local.setIdCategoria(cursor.getLong(cursor.getColumnIndex("idCategoria")));
+            local.setIdUsuario(cursor.getInt(cursor.getColumnIndex("idUsuario")));
+            locais.add(local);
+        }
+
+        cursor.close();
+
+        return locais;
+    }
+
+    public void insertFavorito(int pIdLocal, int pIdUsuario) {
+        SQLiteDatabase db = getWritableDatabase();
+
+        ContentValues dados = getDadosFavoritos(pIdLocal, pIdUsuario);
+
+        db.insert("tbFavoritos", null, dados);
+    }
+
+    private ContentValues getDadosFavoritos(int pIdLocal, int pIdUsuario) {
+        ContentValues dados = new ContentValues();
+        dados.put("idLocal", pIdLocal);
+        dados.put("idUsuario", pIdUsuario);
+        return dados;
+    }
+
+
 }

@@ -32,6 +32,7 @@ import java.io.IOException;
 import br.com.ambeco.adapter.spinnerAdapter;
 import br.com.ambeco.beans.LocalBean;
 import br.com.ambeco.dao.LocalDAO;
+import br.com.ambeco.helpers.LocaisHelper;
 import br.com.ambeco.helpers.UserHelper;
 import br.com.ambeco.utilitys.Utility;
 
@@ -58,6 +59,13 @@ public class CadastraLocalActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.cadastra_local_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(Boolean.FALSE);
+
+        Intent intent = getIntent();
+        LocalBean localBean = (LocalBean) intent.getSerializableExtra("local");
+
+        if(localBean != null) {
+            locaisHelper.preencheFormulario(localBean);
+        }
 
 
         locaisHelper = new LocaisHelper(this);

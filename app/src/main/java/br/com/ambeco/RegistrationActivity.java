@@ -31,9 +31,6 @@ public class RegistrationActivity extends AppCompatActivity {
     private EditText edtSobrenome;
     private EditText edtSenha;
     private EditText edtConfirmarSenha;
-    private LocalDAO localDao;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,11 +49,11 @@ public class RegistrationActivity extends AppCompatActivity {
         edtSobrenome = (EditText) findViewById(R.id.registration_edtSobrenome);
         edtSenha = (EditText) findViewById(R.id.registration_edtSenha);
         edtConfirmarSenha = (EditText) findViewById(R.id.registration_edtConfirmarSenha);
-
-        localDao = new LocalDAO(this);
     }
 
     public void onContinueClick(View view) {
+
+        LocalDAO localDao = new LocalDAO(this);
 
         if (registrationBox1.isShown()) {
             changeRegistrationBox(registrationBox1, registrationBox2, Boolean.FALSE);
@@ -67,6 +64,8 @@ public class RegistrationActivity extends AppCompatActivity {
                 } else {
                     changeRegistrationBox(registrationBox2, registrationBox3, Boolean.FALSE);
                 }
+
+                localDao.close();
             } else {
                 Toast.makeText(this, "Campo e-mail obrigatório.", Toast.LENGTH_SHORT).show();
                 edtEmail.setFocusable(Boolean.TRUE);
@@ -97,6 +96,8 @@ public class RegistrationActivity extends AppCompatActivity {
     }
 
     private void insereUsuario() {
+        LocalDAO localDao = new LocalDAO(this);
+
         UsuarioBean userBean = new UsuarioBean();
         String strEmail = edtEmail.getText().toString();
         String strNome = edtNome.getText().toString();
@@ -109,6 +110,7 @@ public class RegistrationActivity extends AppCompatActivity {
         userBean.setSenha(strSenha);
 
         localDao.insertUsuario(userBean);
+        localDao.close();
 
         Toast.makeText(this, "Cadastro concluído com sucesso.", Toast.LENGTH_SHORT).show();
         finish();

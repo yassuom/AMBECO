@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -24,7 +23,6 @@ public class LoginActivity extends AppCompatActivity {
     private EditText userText;
     private EditText passwordText;
     private Button btnLogin;
-    private LocalDAO localDAO;
     private UserHelper userHelper;
 
     @Override
@@ -55,7 +53,9 @@ public class LoginActivity extends AppCompatActivity {
                             UsuarioBean usuario = null;
 
                             if(userCache.getIdUsuario() != 0) {
-                                usuario = localDAO.getUsuario(userCache.getEmail(), userCache.getSenha());
+                                LocalDAO localDao = new LocalDAO(LoginActivity.this);
+                                usuario = localDao.getUsuario(userCache.getEmail(), userCache.getSenha());
+                                localDao.close();
                             }
 
                             if(usuario != null) {
@@ -101,8 +101,6 @@ public class LoginActivity extends AppCompatActivity {
 
 
         btnLogin = (Button) findViewById(R.id.login_btn_entrar);
-
-        localDAO = new LocalDAO(this);
 
         TextView cadastrarLoginText = (TextView) findViewById(R.id.login_sign);
         cadastrarLoginText.setOnClickListener(new View.OnClickListener() {
@@ -153,10 +151,13 @@ public class LoginActivity extends AppCompatActivity {
 
     public void btnLoginClick(View view) {
 
+        LocalDAO localDao = new LocalDAO(this);
+
         String usuario = userText.getText().toString();
         String senha = passwordText.getText().toString();
 
-        UsuarioBean userBean = localDAO.getUsuario(usuario, senha);
+        UsuarioBean userBean = localDao.getUsuario(usuario, senha);
+        localDao.close();
 
         if(userBean == null) {
             Toast.makeText(this, "Usuário/Senha inválidos.", Toast.LENGTH_SHORT).show();

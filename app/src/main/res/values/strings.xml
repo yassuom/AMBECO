@@ -14,4 +14,7 @@
     <string name="title_location_permission">Necessário permissão de localização</string>
     <string name="text_location_permission">Este aplicativo precisa da permissão de localização, por favor aceite o uso da funcionalidade de localização</string>
     <string name="ok">OK</string>
+
+    <string name="layout_mapa">Mapa</string>
+    <string name="layout_lista">Lista</string>
 </resources>

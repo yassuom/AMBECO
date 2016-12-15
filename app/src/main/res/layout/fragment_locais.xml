@@ -54,26 +54,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <com.google.android.gms.maps.MapView
-                android:id="@+id/map"
+            <FrameLayout
+                android:id="@+id/locais_frame"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
-
-            <LinearLayout
-                android:id="@+id/locais_lista"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:background="@color/componentsColor"
-                android:visibility="invisible">
-
-                <ListView
-                    android:id="@+id/lista_locais"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"/>
-
-            </LinearLayout>
 
         </RelativeLayout>
 

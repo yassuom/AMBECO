@@ -35,6 +35,9 @@ public class LocaisMapaFragment extends SupportMapFragment implements OnMapReady
 
     private Map<Marker, LocalBean> allMarkersMap = new HashMap<Marker, LocalBean>();
 
+    private String filter;
+
+    GoogleMap myMap;
 
     @Override
     public void onCreate(Bundle bundle) {
@@ -53,56 +56,25 @@ public class LocaisMapaFragment extends SupportMapFragment implements OnMapReady
     @Override
     public void onResume() {
         super.onResume();
+
+        Bundle params = getArguments();
+        if(params != null) {
+            filter = (String) params.getSerializable("filter");
+        }
+
+        if (ContextCompat.checkSelfPermission(this.getContext(),
+                android.Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+
+            getMapAsync(this);
+        }
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        LatLng posicao = getCoordenadas("Rua Lourenço Carleto 40, Osasco");
+        myMap = googleMap;
 
-        if (ActivityCompat.checkSelfPermission(this.getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(this.getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
-
-        if (posicao != null) {
-            CameraUpdate update = CameraUpdateFactory.newLatLngZoom(posicao, 17);
-            googleMap.moveCamera(update);
-        }
-
-        LocalDAO localDAO = new LocalDAO(getContext());
-        for (final LocalBean localBean : localDAO.listaLocais()) {
-
-            String enderecoCompleto = localBean.getLogradouro() + " " +
-                    localBean.getAltura() + ", " +
-                    localBean.getCidade();
-
-
-            LatLng coordenada = getCoordenadas(enderecoCompleto);
-            if (coordenada != null) {
-                MarkerOptions marcador = new MarkerOptions();
-                marcador.position(coordenada);
-                marcador.title(localBean.getDescricao());
-                marcador.snippet("Nível Degradação: " + String.valueOf(localBean.getNivelDegradacao()));
-                marcador.icon(BitmapDescriptorFactory.fromResource(getMarcador(localBean.getIdCategoria())));
-
-                Marker marker = googleMap.addMarker(marcador);
-                allMarkersMap.put(marker, localBean);
-
-                googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-                    @Override
-                    public boolean onMarkerClick(Marker marker) {
-                        LocalBean bean = allMarkersMap.get(marker);
-                        Intent intentDetalheLocal = new Intent(getContext(), DetalheLocalActivity.class);
-                        intentDetalheLocal.putExtra("local", bean);
-                        startActivity(intentDetalheLocal);
-                        return true;
-                    }
-                });
-            }
-        }
-        localDAO.close();
-
-        new Localizador(getContext(), googleMap);
+        atualizaMapa();
     }
 
     private LatLng getCoordenadas(String endereco) {
@@ -152,7 +124,6 @@ public class LocaisMapaFragment extends SupportMapFragment implements OnMapReady
                         .create()
                         .show();
 
-
             } else {
                 ActivityCompat.requestPermissions(this.getActivity(),
                         new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
@@ -186,6 +157,55 @@ public class LocaisMapaFragment extends SupportMapFragment implements OnMapReady
             }
 
         }
+    }
+
+    public void atualizaMapa() {
+        LatLng posicao = getCoordenadas("Rua Lourenço Carleto 40, Osasco");
+
+        if (ActivityCompat.checkSelfPermission(this.getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this.getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+
+        if (posicao != null) {
+            CameraUpdate update = CameraUpdateFactory.newLatLngZoom(posicao, 17);
+            myMap.moveCamera(update);
+        }
+
+        LocalDAO localDAO = new LocalDAO(getContext());
+        for (final LocalBean localBean : localDAO.listaLocais(filter)) {
+
+            String enderecoCompleto = localBean.getLogradouro() + " " +
+                    localBean.getAltura() + ", " +
+                    localBean.getCidade();
+
+
+            LatLng coordenada = getCoordenadas(enderecoCompleto);
+            if (coordenada != null) {
+                MarkerOptions marcador = new MarkerOptions();
+                marcador.position(coordenada);
+                marcador.title(localBean.getDescricao());
+                marcador.snippet("Nível Degradação: " + String.valueOf(localBean.getNivelDegradacao()));
+                marcador.icon(BitmapDescriptorFactory.fromResource(getMarcador(localBean.getIdCategoria())));
+
+                Marker marker = myMap.addMarker(marcador);
+                allMarkersMap.put(marker, localBean);
+
+                myMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                    @Override
+                    public boolean onMarkerClick(Marker marker) {
+                        LocalBean bean = allMarkersMap.get(marker);
+                        Intent intentDetalheLocal = new Intent(getContext(), DetalheLocalActivity.class);
+                        intentDetalheLocal.putExtra("local", bean);
+                        startActivity(intentDetalheLocal);
+                        return true;
+                    }
+                });
+            }
+        }
+        localDAO.close();
+
+        new Localizador(getContext(), myMap);
     }
 
 }
