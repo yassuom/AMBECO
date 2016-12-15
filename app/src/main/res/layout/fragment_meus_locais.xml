@@ -11,11 +11,20 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:text="Meus Locais"
+                android:textStyle="italic"
+                android:textSize="20dp"
+                android:layout_marginTop="10dp"/>
+
             <ListView
                 android:id="@+id/meus_locais_lista"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"/>
+                android:layout_marginTop="10dp"/>
 
         </LinearLayout>
 
