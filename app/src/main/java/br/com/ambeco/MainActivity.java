@@ -176,7 +176,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void setMenuItemVisibility(Boolean status) {
-        menuMain.getItem(0).setVisible(status);
         menuMain.getItem(1).setVisible(status);
     }
 

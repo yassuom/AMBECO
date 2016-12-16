@@ -77,7 +77,7 @@ public class MeusLocaisFragment extends Fragment {
         final LocalBean localBean = (LocalBean) listaLocal.getItemAtPosition(info.position);
 
         //item de menu deletar
-        MenuItem deletar = menu.add("Deletar");
+        MenuItem deletar = menu.add("Excluir");
         deletar.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {

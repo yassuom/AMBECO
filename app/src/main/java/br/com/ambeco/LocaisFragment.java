@@ -34,7 +34,7 @@ public class LocaisFragment extends Fragment {
 
     private FragmentActivity myContext;
 
-    int selectedLayout;
+    boolean mapOnScreen = true;
 
     @Override
     public void onAttach(Activity activity) {
@@ -68,7 +68,11 @@ public class LocaisFragment extends Fragment {
                     filterHelper.setFilterQueimada(Boolean.TRUE);
                 }
 
-                changeLayout(selectedLayout);
+                if(mapOnScreen) {
+                    changeLayout(R.string.layout_mapa);
+                } else {
+                    changeLayout(R.string.layout_lista);
+                }
             }
         });
 
@@ -84,7 +88,11 @@ public class LocaisFragment extends Fragment {
                     filterHelper.setFilterDeslizamento(Boolean.TRUE);
                 }
 
-                changeLayout(selectedLayout);
+                if(mapOnScreen) {
+                    changeLayout(R.string.layout_mapa);
+                } else {
+                    changeLayout(R.string.layout_lista);
+                }
             }
         });
 
@@ -100,7 +108,11 @@ public class LocaisFragment extends Fragment {
                     filterHelper.setFilterLixo(Boolean.TRUE);
                 }
 
-                changeLayout(selectedLayout);
+                if(mapOnScreen) {
+                    changeLayout(R.string.layout_mapa);
+                } else {
+                    changeLayout(R.string.layout_lista);
+                }
             }
         });
 
@@ -116,7 +128,11 @@ public class LocaisFragment extends Fragment {
                     filterHelper.setFilterDesmatamento(Boolean.TRUE);
                 }
 
-                changeLayout(selectedLayout);
+                if(mapOnScreen) {
+                    changeLayout(R.string.layout_mapa);
+                } else {
+                    changeLayout(R.string.layout_lista);
+                }
             }
         });
 
@@ -125,6 +141,10 @@ public class LocaisFragment extends Fragment {
 
     @Override
     public void onResume() {
+        filterHelper.setFilterDeslizamento(Boolean.FALSE);
+        filterHelper.setFilterDesmatamento(Boolean.FALSE);
+        filterHelper.setFilterQueimada(Boolean.FALSE);
+        filterHelper.setFilterLixo(Boolean.FALSE);
         super.onResume();
     }
 
@@ -143,11 +163,12 @@ public class LocaisFragment extends Fragment {
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     public void changeLayout(int layout) {
-        selectedLayout = layout;
 
         if(layout == R.string.layout_lista) {
+            mapOnScreen = false;
             changeFragment(new LocaisListaFragment());
         } else {
+            mapOnScreen = true;
             changeFragment(new LocaisMapaFragment());
         }
 
